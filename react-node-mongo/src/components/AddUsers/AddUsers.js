@@ -1,17 +1,15 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 
 const AddUsers = () => {
-  const [users, setUsers] = useState({});
-  const nameRef = useRef({});
-  const emailRef = useRef({});
+  const nameRef = useRef("");
+  const emailRef = useRef("");
 
   const handleUserSubmit = (e) => {
     e.preventDefault();
     const name = nameRef.current.value;
     const email = emailRef.current.value;
     console.log(name, email);
-    const user = { name, email };
-    setUsers(user);
+    const users = { name, email };
 
     // send data to server
     fetch("http://localhost:5000/users", {
@@ -23,7 +21,7 @@ const AddUsers = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
+        console.log(data);
         alert("Successfully add data!");
         e.target.reset();
       });
@@ -39,6 +37,7 @@ const AddUsers = () => {
           name="name"
           id="name"
           placeholder="Name"
+          required
         />
         <input
           ref={emailRef}
@@ -46,6 +45,7 @@ const AddUsers = () => {
           name="email"
           id="email"
           placeholder="Email"
+          required
         />
         <input type="submit" value="Add user" />
       </form>
