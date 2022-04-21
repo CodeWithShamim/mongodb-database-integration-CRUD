@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 const AddUsers = () => {
-  const [users, setUsers] = useState("");
+  const [users, setUsers] = useState({});
+  const nameRef = useRef({});
+  const emailRef = useRef({});
+
   const handleUserSubmit = (e) => {
     e.preventDefault();
-    const name = e.target.name.value;
-    const email = e.target.email.value;
+    const name = nameRef.current.value;
+    const email = emailRef.current.value;
     console.log(name, email);
     const user = { name, email };
     setUsers(user);
@@ -19,15 +22,31 @@ const AddUsers = () => {
       body: JSON.stringify(users),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        // console.log(data);
+        alert("Successfully add data!");
+        e.target.reset();
+      });
   };
 
   return (
     <div>
       <h1>Add user</h1>
       <form onSubmit={handleUserSubmit}>
-        <input type="text" name="name" id="name" placeholder="Name" />
-        <input type="email" name="email" id="email" placeholder="Email" />
+        <input
+          ref={nameRef}
+          type="text"
+          name="name"
+          id="name"
+          placeholder="Name"
+        />
+        <input
+          ref={emailRef}
+          type="email"
+          name="email"
+          id="email"
+          placeholder="Email"
+        />
         <input type="submit" value="Add user" />
       </form>
     </div>
